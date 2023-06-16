@@ -572,7 +572,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 lock_version = "4.2"
 cross_platform = true
 groups = ["default"]
-content_hash = "sha256:0601359c4882556968ffe6e27e42ede5619ca29c3bd26731d8e89f15bdef92b2"
+content_hash = "sha256:0ba767040c8d41dd1548eb6c776b9cbaac87f24b99df0b2fb70202793d688e38"
 
 [metadata.files]
 "antlr4-python3-runtime 4.9.3" = [
