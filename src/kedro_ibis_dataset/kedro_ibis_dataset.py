@@ -1,3 +1,5 @@
+from typing import Dict
+
 from kedro.io import AbstractDataSet, DataSetError
 import ibis
 
@@ -6,9 +8,9 @@ class IbisDataSet(AbstractDataSet):
     """``IbisDataSet`` loads and `TODO` data to a table in an Ibis connection.
     When loading data, it returns an Ibis table which is a lazy connection to the data.
     """
-    connections: dict[str, ibis.BaseBackend] = {}
+    connections: Dict[str, ibis.BaseBackend] = {}
 
-    def __init__(self, table_name: str, credentials: dict[str, str]):
+    def __init__(self, table_name: str, credentials: Dict[str, str]):
         """Creates a new instance of ``IbisDataSet`` pointing to a table in an Ibis connection.
         The connection is created only once per connection string and shared across all instances.
 
