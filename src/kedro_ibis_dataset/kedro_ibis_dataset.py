@@ -29,6 +29,7 @@ class IbisDataSet(AbstractDataSet):
         return con.table(self.table_name)
 
     def _save(self, data):
+        # TODO: implement save method
         raise DataSetError("Saving to IbisDataSet is not supported.")
     
     def _describe(self):
