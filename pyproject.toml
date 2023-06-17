@@ -1,7 +1,7 @@
 
 [project]
 name = "kedro-ibis-dataset"
-version = "0.0.4"
+version = "0.0.5"
 description = "Ibis connector for kedro catalog"
 repository = "https://github.com/inigohidalgo/kedro-ibis-dataset"
 
