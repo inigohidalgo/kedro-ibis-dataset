@@ -48,3 +48,13 @@ class TestIbisDataSet:
         reloaded = data.load().to_pandas()
         assert_frame_equal(pd.concat([dummy_dataframe, dummy_dataframe]).reset_index(drop=True), reloaded.reset_index(drop=True))
     # TODO: test overwrite vs append
+
+    def test_insert_existing_table_overwrite(self, temp_db_connection_string, dummy_dataframe):
+        """Test saving and reloading the data."""
+        table_name = 'test_table'
+        credentials = temp_db_connection_string
+        data = IbisDataSet(table_name, credentials=credentials)
+        data.save(dummy_dataframe)
+        data.save(dummy_dataframe, overwrite=True)
+        reloaded = data.load().to_pandas()
+        assert_frame_equal(dummy_dataframe, reloaded)
