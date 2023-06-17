@@ -1,0 +1,1 @@
+from .kedro_ibis_dataset import IbisDataSet
