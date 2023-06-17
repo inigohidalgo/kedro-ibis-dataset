@@ -54,7 +54,7 @@ class IbisDataSet(AbstractDataSet):
 
     def _save(self, data, **kwargs):
         if self._table_exists:
-            self._table.insert(data, **kwargs)
+            self._connection.insert(self.table_name, data, **kwargs)
         else:
             self._connection.create_table(self.table_name, data)
 
