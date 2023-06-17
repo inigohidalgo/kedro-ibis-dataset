@@ -47,20 +47,35 @@ class IbisDataSet(AbstractDataSet):
             cls.connections[connection_string] = ibis.connect(connection_string)
         return
 
-    # TODO: check table exists when instantiating connection?
-    # would this be desirable behavior?
-    # def _exists(self):
+
 
     def _load(self):
-        con = self.connections[self.connection_string]
-        return con.table(self.table_name)
+        return self._table
 
-    def _save(self, data):
-        # TODO: implement save method
-        raise DataSetError("Saving to IbisDataSet is not supported.")
-    
+    def _save(self, data, **kwargs):
+        if self._table_exists:
+            self._table.insert(data, **kwargs)
+        else:
+            self._connection.create_table(self.table_name, data)
+
     def _describe(self):
         return dict(
             table_name=self.table_name,
             credentials=self.credentials
         )
+    @property
+    def _table(self):
+        if not self._table_exists:
+            raise DataSetError(f"Table '{self.table_name}' does not exist in DB.")
+        return self._connection.table(self.table_name)
+
+    # TODO: extend _exists for kedro funcionality?
+    # is there a functional benefit with kedro?
+    # def _exists(self):
+    @property
+    def _table_exists(self):
+        return self.table_name in self._connection.list_tables()
+
+    @property
+    def _connection(self):
+        return self.connections[self.connection_string]
