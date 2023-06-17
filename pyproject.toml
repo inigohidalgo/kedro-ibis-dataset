@@ -24,3 +24,10 @@ build-backend = "pdm.backend"
 build = {shell = "./tasks/build.sh"}
 tag = {shell = "./tasks/tag-release.sh"}
 release = {composite = ["build", "tag"]}
+
+[tool.pdm.dev-dependencies]
+test = [
+    "pytest>=7.3.2",
+    "ibis-framework[duckdb]",
+    "duckdb>=0.8.1",
+]
