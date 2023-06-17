@@ -1,9 +1,9 @@
 
 [project]
 name = "kedro-ibis-dataset"
-version = "0.0.5"
+version = "0.0.6a1"
 description = "Ibis connector for kedro catalog"
-repository = "https://github.com/inigohidalgo/kedro-ibis-dataset"
+urls.repository = "https://github.com/inigohidalgo/kedro-ibis-dataset"
 
 authors = [
     {name = "Iñigo Hidalgo Rey", email = "inigohrey@gmail.com"},
