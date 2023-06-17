@@ -1,8 +1,10 @@
 
 [project]
 name = "kedro-ibis-dataset"
-version = "0.0.3"
+version = "0.0.4"
 description = "Ibis connector for kedro catalog"
+repository = "https://github.com/inigohidalgo/kedro-ibis-dataset"
+
 authors = [
     {name = "Iñigo Hidalgo Rey", email = "inigohrey@gmail.com"},
 ]
@@ -17,3 +19,7 @@ license = {text = "MIT"}
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
+
+[tool.pdm.scripts]
+build = {shell = "./tasks/build.sh"}
+tag = {shell = "./tasks/tag-release.sh"}
