@@ -1,7 +1,22 @@
-from typing import Dict
+from copy import deepcopy
+from typing import Dict, Any, Union, Optional
 
 from kedro.io import AbstractDataSet, DataSetError
 import ibis
+
+DataSetConfig = Dict[str, Any]
+
+def _save_config(config: Union[Dict, None]) -> Dict:
+    """Process DataSet config, if dictionary is provided, return a deepcopy,
+    else return an empty dictionary.
+    
+    Args:
+        config: DataSet config dictionary.
+    
+    Returns:
+        A dictionary containing the DataSet config.
+    """
+    return deepcopy(config) if config else {}
 
 
 class IbisDataSet(AbstractDataSet):
@@ -10,7 +25,7 @@ class IbisDataSet(AbstractDataSet):
     """
     connections: Dict[str, ibis.BaseBackend] = {}
 
-    def __init__(self, table_name: str, credentials: Dict[str, str]):
+    def __init__(self, table_name: str, load_args: Optional[DataSetConfig]=None, save_args: Optional[DataSetConfig]=None, credentials: Optional[DataSetConfig]=None):
         """Creates a new instance of ``IbisDataSet`` pointing to a table in an Ibis connection.
         The connection is created only once per connection string and shared across all instances.
 
@@ -21,15 +36,19 @@ class IbisDataSet(AbstractDataSet):
         Raises:
             DataSetError: When ``table_name`` is empty.
         """
+        self._credentials = _save_config(credentials)
+        self._load_args = _save_config(load_args)
+        self._save_args = _save_config(save_args)
+    
         if not table_name:
             raise DataSetError("'table_name' argument cannot be empty.")
 
-        if not (credentials and "con" in credentials and credentials["con"]):
+        if not (self._credentials and "con" in self._credentials and self._credentials["con"]):
             raise DataSetError("'con' argument cannot be empty. Please provide an ibis connection string.")
 
-        self.connection_string = credentials["con"]
+        self.connection_string = self._credentials["con"]
         self.table_name = table_name
-        self.credentials = credentials
+        # self.credentials = credentials
         self.create_connection(self.connection_string)
 
     @classmethod
@@ -61,7 +80,7 @@ class IbisDataSet(AbstractDataSet):
     def _describe(self):
         return dict(
             table_name=self.table_name,
-            credentials=self.credentials
+            credentials=self._credentials
         )
     @property
     def _table(self):

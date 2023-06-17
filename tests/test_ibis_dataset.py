@@ -33,7 +33,7 @@ class TestIbisDataSet:
         """Test saving and reloading the data."""
         table_name = 'test_table'
         credentials = temp_db_connection_string
-        data = IbisDataSet(table_name, credentials)
+        data = IbisDataSet(table_name, credentials=credentials)
         data.save(dummy_dataframe)
         reloaded = data.load().to_pandas()
         assert_frame_equal(dummy_dataframe, reloaded)
@@ -42,7 +42,7 @@ class TestIbisDataSet:
         """Test saving and reloading the data."""
         table_name = 'test_table'
         credentials = temp_db_connection_string
-        data = IbisDataSet(table_name, credentials)
+        data = IbisDataSet(table_name, credentials=credentials)
         data.save(dummy_dataframe)
         data.save(dummy_dataframe)
         reloaded = data.load().to_pandas()
