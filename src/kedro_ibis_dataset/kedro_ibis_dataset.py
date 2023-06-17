@@ -72,10 +72,12 @@ class IbisDataSet(AbstractDataSet):
         return self._table
 
     def _save(self, data, **kwargs):
+        save_args = deepcopy(self._save_args)
+        save_args.update(kwargs)
         if self._table_exists:
-            self._connection.insert(self.table_name, data, **kwargs)
+            self._connection.insert(self.table_name, data, **save_args)
         else:
-            self._connection.create_table(self.table_name, data)
+            self._connection.create_table(self.table_name, data, **save_args)
 
     def _describe(self):
         return dict(
