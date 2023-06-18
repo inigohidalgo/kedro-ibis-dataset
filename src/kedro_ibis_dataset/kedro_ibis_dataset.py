@@ -20,8 +20,9 @@ def _save_config(config: Union[Dict, None]) -> Dict:
 
 
 class IbisDataSet(AbstractDataSet):
-    """``IbisDataSet`` loads and `TODO` data to a table in an Ibis connection.
+    """``IbisDataSet`` loads and saves data to an SQL table using an Ibis connection.
     When loading data, it returns an Ibis table which is a lazy connection to the data.
+    When saving data, it writes to an existing table `table_name` or creates a new table.
     """
     connections: Dict[str, ibis.BaseBackend] = {}
 
