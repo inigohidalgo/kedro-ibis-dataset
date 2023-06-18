@@ -3,6 +3,8 @@ from typing import Dict, Any, Union, Optional
 
 from kedro.io import AbstractDataSet, DataSetError
 import ibis
+import ibis.expr.types as ir
+import pandas as pd
 
 DataSetConfig = Dict[str, Any]
 
@@ -18,11 +20,11 @@ def _save_config(config: Union[Dict, None]) -> Dict:
     """
     return deepcopy(config) if config else {}
 
-
 class IbisDataSet(AbstractDataSet):
     """``IbisDataSet`` loads and saves data to an SQL table using an Ibis connection.
     When loading data, it returns an Ibis table which is a lazy connection to the data.
     When saving data, it writes to an existing table `table_name` or creates a new table.
+    It can save any data saveable to an Ibis table.
     """
     connections: Dict[str, ibis.BaseBackend] = {}
 
@@ -72,9 +74,14 @@ class IbisDataSet(AbstractDataSet):
     def _load(self):
         return self._table
 
-    def _save(self, data, **kwargs):
+    def _save(self, data: Union[pd.DataFrame, ir.Table]):
+        """Saves the given data to the corresponding table.
+        If the table does not exist, it will be created.
+
+        Args:
+            data: The data to save. It can be anything saveable to an Ibis table.
+        """
         save_args = deepcopy(self._save_args)
-        save_args.update(kwargs)
         if self._table_exists:
             self._connection.insert(self.table_name, data, **save_args)
         else:
