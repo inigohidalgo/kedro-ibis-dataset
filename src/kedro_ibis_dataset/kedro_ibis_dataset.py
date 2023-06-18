@@ -66,8 +66,8 @@ class IbisDataSet(AbstractDataSet):
 
         self.connection_string = self._credentials["con"]
         self.table_name = table_name
-        # self.credentials = credentials
         self.create_connection(self.connection_string)
+        self._connection = self.connections[self.connection_string]
 
     @classmethod
     def create_connection(cls, connection_string: str):
@@ -116,6 +116,3 @@ class IbisDataSet(AbstractDataSet):
     def _table_exists(self):
         return self.table_name in self._connection.list_tables()
 
-    @property
-    def _connection(self):
-        return self.connections[self.connection_string]
