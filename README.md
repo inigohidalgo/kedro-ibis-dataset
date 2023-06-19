@@ -10,6 +10,8 @@ To initiate a DataSet, currently we must pass a connection string (`{backend}://
 
 ## How to use
 
+To see an example usage in a kedro pipeline see [this project](https://github.com/inigohidalgo/ibis-kedro-poc/).
+
 ### 1. pip install the package
 ```bash
 pip install kedro-ibis-dataset
@@ -35,6 +37,6 @@ ibis_dataset_table:
 ```
 
 
-For an example usage see [this project](https://github.com/inigohidalgo/ibis-kedro-poc/).
+
 
 For more information on how to use Ibis to connect to SQL databases see the [Ibis documentation](https://ibis-project.org/docs/).
