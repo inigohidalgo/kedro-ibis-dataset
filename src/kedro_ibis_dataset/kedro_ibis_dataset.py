@@ -34,6 +34,7 @@ class IbisDataSet(AbstractDataSet):
     def __init__(
         self,
         table_name: str,
+        schema_name: Optional[str] = None,
         load_args: Optional[DataSetConfig] = None,
         save_args: Optional[DataSetConfig] = None,
         credentials: Optional[DataSetConfig] = None,
@@ -43,6 +44,7 @@ class IbisDataSet(AbstractDataSet):
 
         Args:
             table_name: The name of the table which will be returned when loading data.
+            schema_name: The name of the schema in which the table is located.
             credentials: A dictionary containing the connection string under the key "con".
 
         Raises:
@@ -66,6 +68,7 @@ class IbisDataSet(AbstractDataSet):
 
         self.connection_string = self._credentials["con"]
         self.table_name = table_name
+        self.schema_name = schema_name
         self.create_connection(self.connection_string)
         self._connection = self.connections[self.connection_string]
 
@@ -96,9 +99,9 @@ class IbisDataSet(AbstractDataSet):
         """
         save_args = deepcopy(self._save_args)
         if self._table_exists:
-            self._connection.insert(self.table_name, data, **save_args)
+            self._connection.insert(self.table_name, data, schema=self.schema_name, **save_args)
         else:
-            self._connection.create_table(self.table_name, data, **save_args)
+            self._connection.create_table(self.table_name, data, schema=self.schema_name, **save_args)
 
     def _describe(self):
         return dict(table_name=self.table_name, credentials=self._credentials)
@@ -115,4 +118,3 @@ class IbisDataSet(AbstractDataSet):
     @property
     def _table_exists(self):
         return self.table_name in self._connection.list_tables()
-
