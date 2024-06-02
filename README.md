@@ -1,5 +1,9 @@
 # Kedro IbisDataSet
 
+This was a proof of concept designed to kickstart discussions around integrating [Ibis](https://github.com/ibis-project/ibis) and [Kedro](https://github.com/kedro-org/kedro). This functionality was merged into Kedro, refer to the [official implementation](https://github.com/kedro-org/kedro-plugins/blob/main/kedro-datasets/kedro_datasets/ibis/table_dataset.py) by @deepyaman.
+
+----
+
 Connector to load data from SQL tables into Python [Kedro](https://github.com/kedro-org/kedro) pipelines using [Ibis](https://github.com/ibis-project/ibis) tables.
 This allows for connecting to databases and constructing queries dynamically using Kedro's node-pipeline framework to construct Ibis expressions.
 
